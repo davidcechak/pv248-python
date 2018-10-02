@@ -29,7 +29,13 @@ def countTitlesByCentury():
                 year = line.strip().split(":")[1]
                 if year.strip():
                     yearMatched = re.search("[1,2]\d{3}", year)
-                    if yearMatched and yearMatched[0]:
+                    if not yearMatched:
+                        yearMatched = re.search("[1]\d[a-z,A-Z]*[century,th,st,nd,rd]", year)
+                        if yearMatched and yearMatched[0]:
+                            yearMatched = re.search("[1]\d", year)
+                            century = str(int(yearMatched[0]))
+                            counter[century] += 1       
+                    elif yearMatched and yearMatched[0]:
                         century = str(int(yearMatched[0]) // 100 + 1)
                         counter[century] += 1
 
